@@ -42,6 +42,7 @@ void TreeDecomposition(int r, int pos) {
 	in_link[r] = pos;
 	heavy_link[pos].push_back(r);
 
+	/*
 	for(int i = 0; i < efrom[r].size(); i++) {
 		const auto& e = edges[efrom[r][i]];
 		int target = e.from + e.to - r;
@@ -49,6 +50,17 @@ void TreeDecomposition(int r, int pos) {
 		if(target == heavy_son[r]) {
 			TreeDecomposition(target, pos);
 		}else {
+			heavy_link.emplace_back();
+			TreeDecomposition(target, heavy_link.size() - 1);
+		}
+	}
+	*/
+	if(heavy_son[r]) {
+		TreeDecomposition(heavy_son[r], pos);
+		for(int i = 0; i < efrom[r].size(); i++) {
+			const auto& e = edges[efrom[r][i]];
+			int target = e.from + e.to - r;
+			if(target == father[r] || target == heavy_son[r]) continue;
 			heavy_link.emplace_back();
 			TreeDecomposition(target, heavy_link.size() - 1);
 		}
